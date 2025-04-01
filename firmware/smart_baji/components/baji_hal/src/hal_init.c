@@ -33,7 +33,10 @@
 /*********************************************************************
  * INCLUDES
  */
+#include "hal_led.h"
+#include "hal_init.h"
 
+#include "sys_log.h"
 
 /*********************************************************************
  * MACROS
@@ -69,4 +72,9 @@
  * GLOBAL FUNCTIONS
  */
 
+
+void hal_init(void)
+ {
+    hal_led_init();
+ }
 

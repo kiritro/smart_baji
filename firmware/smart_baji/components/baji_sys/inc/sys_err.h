@@ -1,11 +1,11 @@
-#ifndef __HAL_INIT_H__
-#define __HAL_INIT_H__
+#ifndef __SYS_ERR_H__
+#define __SYS_ERR_H__
 
 
 /*********************************************************************
  * INCLUDES
  */
-
+#include "esp_log.h"
 
 /*********************************************************************
  * CPPMIX
@@ -17,7 +17,16 @@ extern "C" {
 /*********************************************************************
  * MACROS
  */
+// 错误码定义
+#define SYS_OK        (0)
+#define SYS_ERR       (-1)
 
+// 错误检查宏定义
+#ifndef ERROR_CHECK_CLOSE
+#define SYS_ERROR_CHECK(x)  ESP_ERROR_CHECK(x)
+#else
+#define SYS_ERROR_CHECK(x)  {const uint32_t LOCAL_ERR_CODE = (x); if (LOCAL_ERR_CODE != 0) {ESP_LOGE("ERRCHECK", "error code:0x%x",x);}}
+#endif
 
 /*********************************************************************
 * TYPEDEFS
@@ -47,11 +56,11 @@ extern "C" {
 /*********************************************************************
  * GLOBAL FUNCTIONS
  */
-extern void hal_init(void);
+
 
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif /* __HAL_INIT_H__ */
+#endif /* __SYS_ERR_H__ */

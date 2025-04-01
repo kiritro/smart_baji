@@ -1,12 +1,8 @@
-set(srcs "src/hal_init.c"
-         "src/hal_led.c"
-         )
+set(srcs "")
 
 set(public_include "inc")
 
-set(requires baji_sys led_strip)
-
 idf_component_register(SRCS ${srcs}
                        INCLUDE_DIRS ${public_include}
-                       REQUIRES ${requires}
+                       REQUIRES 
                       )

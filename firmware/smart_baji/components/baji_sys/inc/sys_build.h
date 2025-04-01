@@ -1,5 +1,5 @@
-#ifndef __HAL_INIT_H__
-#define __HAL_INIT_H__
+#ifndef __SYS_BUILD_H__
+#define __SYS_BUILD_H__
 
 
 /*********************************************************************
@@ -47,11 +47,11 @@ extern "C" {
 /*********************************************************************
  * GLOBAL FUNCTIONS
  */
-extern void hal_init(void);
+
 
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif /* __HAL_INIT_H__ */
+#endif /* __SYS_BUILD_H__ */
