@@ -1,4 +1,4 @@
-/*********************************************************************
+/***********************************************************
  *
  * MIT License
  *
@@ -23,23 +23,17 @@
  * SOFTWARE.
  *
  * 
- * FileName : main.c
- * Author: kiritro  Version: v0.1  Date: 2025/3/31
+ * FileName : /baji_hal/hal_led.c
+ * Author: Kiritro  Version: v0.1  Date: 2025/3/31
  * Description: Function introduction
  * ChangeLog: Change Notes
  *
-**********************************************************************/
+***********************************************************/
 
 /*********************************************************************
  * INCLUDES
  */
-#include <stdio.h>
-#include <inttypes.h>
-#include "sdkconfig.h"
-#include "freertos/FreeRTOS.h"
-#include "freertos/task.h"
 
-#include "hal_init.h"
 
 /*********************************************************************
  * MACROS
@@ -74,16 +68,5 @@
 /*********************************************************************
  * GLOBAL FUNCTIONS
  */
-
-
-
-
-/**
- * [app_main description]
- */
-void app_main(void)
-{
-    
-}
 
 
