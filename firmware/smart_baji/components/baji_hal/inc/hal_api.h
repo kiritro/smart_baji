@@ -1,11 +1,12 @@
-#ifndef __SERVICE_INIT_H__
-#define __SERVICE_INIT_H__
+#ifndef __HAL_API_H__
+#define __HAL_API_H__
 
 
 /*********************************************************************
  * INCLUDES
  */
-
+#include "hal_init.h"
+#include "hal_led.h"
 
 /*********************************************************************
  * CPPMIX
@@ -54,4 +55,4 @@ extern "C" {
 }
 #endif
 
-#endif /* __SERVICE_INIT_H__ */
+#endif /* __HAL_API_H__ */

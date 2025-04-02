@@ -38,7 +38,7 @@
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
 
-#include "hal_init.h"
+#include "hal_api.h"
 
 /*********************************************************************
  * MACROS
