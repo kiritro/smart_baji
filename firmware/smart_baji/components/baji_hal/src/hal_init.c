@@ -33,6 +33,7 @@
 /*********************************************************************
  * INCLUDES
  */
+#include "hal_sd.h"
 #include "hal_led.h"
 #include "hal_init.h"
 
@@ -75,6 +76,9 @@
 
 void hal_init(void)
  {
+   // 初始化RGB LED
     hal_led_init();
+   // 初始化SD卡
+    hal_sd_init();
  }
 

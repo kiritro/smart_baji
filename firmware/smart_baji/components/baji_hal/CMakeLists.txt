@@ -1,10 +1,11 @@
 set(srcs "src/hal_init.c"
          "src/hal_led.c"
+         "src/hal_sd.c"
          )
 
 set(public_include "inc")
 
-set(requires baji_sys led_strip)
+set(requires baji_sys led_strip driver fatfs)
 
 idf_component_register(SRCS ${srcs}
                        INCLUDE_DIRS ${public_include}

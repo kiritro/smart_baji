@@ -42,6 +42,8 @@
 /*********************************************************************
  * MACROS
  */
+#define LED_TAG                        "HAL_LED"
+
 #define RGB_LED_WS2812_PIN             (GPIO_NUM_17)
 #define RGB_LED_NUMBERS                (2)
 #define RGB_LED_RMT_RES_HZ             (10 * 1000 * 1000)
@@ -198,7 +200,7 @@ led_strip_handle_t configure_led(void)
     // LED Strip object handle
     led_strip_handle_t led_strip;
     SYS_ERROR_CHECK(led_strip_new_rmt_device(&strip_config, &rmt_config, &led_strip));
-    sys_logi("HAL_LED", "Created LED strip object with RMT backend");
+    sys_logi(LED_TAG, "Created LED strip object with RMT backend");
     return led_strip;
 }
 
