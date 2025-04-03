@@ -22,7 +22,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  *
- * 
+ *
  * FileName : /baji_hal/hal_init.c
  * Author: Kiritro  Version: v0.1  Date: 2025/4/1
  * Description: Function introduction
@@ -76,10 +76,12 @@
 
 
 void hal_init(void)
- {
-   // 初始化RGB LED
+{
+    // 初始化电池
+    hal_bat_init();
+    // 初始化RGB LED
     hal_led_init();
-   // 初始化SD卡
+    // 初始化SD卡
     hal_sd_init();
- }
+}
 

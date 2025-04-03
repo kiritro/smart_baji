@@ -28,7 +28,7 @@ extern "C" {
 
 // 编译选项
 #ifndef SYS_RELEASE
-#define SYS_LOG_LEVEL             SYS_LOG_LEVEL_DEBUG  // 日志级别，可根据需要调整
+#define SYS_LOG_LEVEL             SYS_LOG_LEVEL_INFO   // 日志级别，可根据需要调整
 #else
 #define SYS_LOG_LEVEL             SYS_LOG_LEVEL_NONE   // 日志级别，可根据需要调整
 #endif

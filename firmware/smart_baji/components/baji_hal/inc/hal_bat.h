@@ -47,7 +47,23 @@ extern "C" {
 /*********************************************************************
  * GLOBAL FUNCTIONS
  */
+/**
+ * @brief 初始化电池模块
+ * 
+ * 该函数用于初始化电池模块，确保其能够正常工作。
+ * 通常在系统启动时调用此函数。
+ */
+extern void hal_bat_init(void); 
 
+/**
+ * @brief 获取电池电量水平
+ * 
+ * 该函数用于获取当前电池的电量水平。
+ * 返回值表示电池的电量，具体含义由实现决定。
+ * 
+ * @return int 电池电量水平
+ */
+extern int hal_bat_get_level(void);
 
 
 #ifdef __cplusplus
