@@ -41,6 +41,8 @@
 #include <stdlib.h>
 #include <inttypes.h>
 
+#include "freertos/FreeRTOS.h"
+#include "freertos/task.h"
 #include "esp_vfs_fat.h"
 #include "sdmmc_cmd.h"
 #include "driver/sdmmc_host.h"
@@ -79,7 +81,6 @@
 static QueueHandle_t gpio_evt_queue = NULL;
 static uint8_t sd_mount_status = 0;
 static sdmmc_card_t *card;
-static sdmmc_host_t host;
 
 /*********************************************************************
  * GLOBAL VARIABLES
@@ -130,7 +131,7 @@ static void sd_check_task(void *arg)
     {
         if(xQueueReceive(gpio_evt_queue, &io_num, portMAX_DELAY))
         {
-            sys_logi(TF_TAG, "GPIO[%"PRIu32"] intr, val: %d\n", io_num, gpio_get_level(io_num));
+            // sys_logi(TF_TAG, "GPIO[%"PRIu32"] intr, val: %d\n", io_num, gpio_get_level(io_num));
 
             int io_level = gpio_get_level(io_num);
 
@@ -145,6 +146,8 @@ static void sd_check_task(void *arg)
                 sys_logi(TF_TAG, "UNMOUNT TF");
                 sd_unmount();
             }
+
+            vTaskDelay(100);
         }
     }
 }
@@ -160,7 +163,7 @@ static void sd_det_init(void)
     gpio_config(&io_conf);
 
     gpio_evt_queue = xQueueCreate(10, sizeof(uint32_t));
-    xTaskCreate(sd_check_task, "sd_check_task", 2048, NULL, 10, NULL);
+    xTaskCreate(sd_check_task, "sd_check_task", 4096, NULL, 10, NULL);
 
     gpio_install_isr_service(0);
     gpio_isr_handler_add(PIN_NUM_DET, gpio_isr_handler, (void *) PIN_NUM_DET);
@@ -175,7 +178,6 @@ static void sd_mount(void)
         .max_files = 5,
         .allocation_unit_size = 16 * 1024
     };
-    sdmmc_card_t *card;
     const char mount_point[] = MOUNT_POINT;
     sys_logi(TF_TAG, "Initializing SD card");
     sys_logi(TF_TAG, "Using SDMMC peripheral");
