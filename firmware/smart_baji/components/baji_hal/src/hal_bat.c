@@ -23,8 +23,8 @@
  * SOFTWARE.
  *
  * 
- * FileName : /baji_hal/hal_init.c
- * Author: Kiritro  Version: v0.1  Date: 2025/4/1
+ * FileName : /baji_hal/hal_bat.c
+ * Author: Kiritro  Version: v0.1  Date: 2025/4/3
  * Description: Function introduction
  * ChangeLog: Change Notes
  *
@@ -33,12 +33,7 @@
 /*********************************************************************
  * INCLUDES
  */
-#include "hal_sd.h"
 #include "hal_bat.h"
-#include "hal_led.h"
-#include "hal_init.h"
-
-#include "sys_log.h"
 
 /*********************************************************************
  * MACROS
@@ -74,12 +69,4 @@
  * GLOBAL FUNCTIONS
  */
 
-
-void hal_init(void)
- {
-   // 初始化RGB LED
-    hal_led_init();
-   // 初始化SD卡
-    hal_sd_init();
- }
 

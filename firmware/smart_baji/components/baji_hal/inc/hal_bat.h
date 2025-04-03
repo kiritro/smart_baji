@@ -1,14 +1,11 @@
-#ifndef __HAL_API_H__
-#define __HAL_API_H__
+#ifndef __HAL_BAT_H__
+#define __HAL_BAT_H__
 
 
 /*********************************************************************
  * INCLUDES
  */
-#include "hal_init.h"
-#include "hal_bat.h"
-#include "hal_led.h"
-#include "hal_sd.h"
+
 
 /*********************************************************************
  * CPPMIX
@@ -57,4 +54,4 @@ extern "C" {
 }
 #endif
 
-#endif /* __HAL_API_H__ */
+#endif /* __HAL_BAT_H__ */
