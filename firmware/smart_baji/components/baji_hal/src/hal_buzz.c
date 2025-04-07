@@ -47,7 +47,7 @@
  */
 #define BUZZ_TAG                     "HAL_BUZZ"
 #define BUZZ_QUEUE_SIZE              (10)
-#define BUZZ_STACK_SIZE              (4096)
+#define BUZZ_STACK_SIZE              (2048)
 #define BUZZ_DEFAUT_FREQUENCY        (2500)
 
 #define BUZZ_GPIO_NUM                GPIO_NUM_18
