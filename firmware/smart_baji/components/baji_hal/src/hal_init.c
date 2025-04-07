@@ -36,6 +36,7 @@
 #include "hal_sd.h"
 #include "hal_bat.h"
 #include "hal_led.h"
+#include "hal_buzz.h"
 #include "hal_init.h"
 
 #include "sys_log.h"
@@ -83,5 +84,7 @@ void hal_init(void)
     hal_led_init();
     // 初始化SD卡
     hal_sd_init();
+    // 初始化蜂鸣器
+    hal_buzz_init();
 }
 
