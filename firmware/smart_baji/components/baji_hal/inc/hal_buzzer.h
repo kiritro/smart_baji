@@ -1,5 +1,5 @@
-#ifndef __HAL_BUZZ_H__
-#define __HAL_BUZZ_H__
+#ifndef __HAL_BUZZER_H__
+#define __HAL_BUZZER_H__
 
 
 /*********************************************************************
@@ -53,7 +53,7 @@ extern "C" {
  * 此函数用于初始化蜂鸣器所需的硬件资源，如GPIO、定时器等。
  * 调用此函数后，蜂鸣器将处于可使用状态。
  */
-extern void hal_buzz_init(void);
+extern void hal_buzzer_init(void);
 
 /**
  * @brief 设置蜂鸣器的频率和持续时间
@@ -62,11 +62,11 @@ extern void hal_buzz_init(void);
  * @param frequency 蜂鸣器的发声频率，单位为Hz
  * @param duration_ms 蜂鸣器的发声持续时间，单位为毫秒
  */
-extern void hal_buzz_set(uint32_t frequency, uint32_t duration_ms);
+extern void hal_buzzer_set(uint32_t frequency, uint32_t duration_ms);
 
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif /* __HAL_BUZZ_H__ */
+#endif /* __HAL_BUZZER_H__ */

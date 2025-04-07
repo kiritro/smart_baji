@@ -23,7 +23,7 @@
  * SOFTWARE.
  *
  *
- * FileName : /baji_hal/src/buzz_tag.c
+ * FileName : /baji_hal/src/hal_buzzer.c
  * Author: Kiritro  Version: v0.1  Date: 2025/4/7
  * Description: Function introduction
  * ChangeLog: Change Notes
@@ -40,7 +40,7 @@
 #include "freertos/task.h"
 
 #include "sys_log.h"
-#include "hal_buzz.h"
+#include "hal_buzzer.h"
 
 /*********************************************************************
  * MACROS
@@ -124,7 +124,7 @@ static buzzer_t *buzzer_create(gpio_num_t gpio_num,
 * 此函数用于初始化蜂鸣器所需的硬件资源，如GPIO、定时器等。
 * 调用此函数后，蜂鸣器将处于可使用状态。
 */
-void hal_buzz_init(void)
+void hal_buzzer_init(void)
 {
     m_buzzer = buzzer_create(BUZZ_GPIO_NUM, BUZZ_CLK_CFG, BUZZ_SPEED_MODE, BUZZ_TIMER_BIT, BUZZ_TIMER_NUM, BUZZ_CHANNEL, BUZZ_IDLE_LEVEL);
 
@@ -136,7 +136,7 @@ void hal_buzz_init(void)
     }
     else
     {
-        hal_buzz_set(2000, 500); // 测试蜂鸣器
+        hal_buzzer_set(2000, 500); // 测试蜂鸣器
     }
 }
 
@@ -147,7 +147,7 @@ void hal_buzz_init(void)
  * @param frequency 蜂鸣器的发声频率，单位为Hz
  * @param duration_ms 蜂鸣器的发声持续时间，单位为毫秒
  */
-void hal_buzz_set(uint32_t frequency, uint32_t duration_ms)
+void hal_buzzer_set(uint32_t frequency, uint32_t duration_ms)
 {
     if (m_buzzer != NULL)
     {

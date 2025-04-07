@@ -24,7 +24,7 @@
  *
  * 
  * FileName : /baji_hal/src/hal_encoder.c
- * Author: Kiritro  Version: v0.1  Date: 2025/3/31
+ * Author: Kiritro  Version: v0.1  Date: 2025/4/7
  * Description: Function introduction
  * ChangeLog: Change Notes
  *

@@ -6,7 +6,7 @@
  * INCLUDES
  */
 #include "hal_init.h"
-#include "hal_buzz.h"
+#include "hal_buzzer.h"
 #include "hal_bat.h"
 #include "hal_led.h"
 #include "hal_sd.h"
