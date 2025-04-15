@@ -44,9 +44,9 @@
  */
 #define ENCODER_TAG                       "HAL_ENCODER"
 
-#define ENCODER_PIN_DIFFA                 (35)
-#define ENCODER_PIN_DIFFB                 (37)
-#define ENCODER_PIN_PUSH                  (36)
+#define ENCODER_PIN_DIFFA                 (7)
+#define ENCODER_PIN_DIFFB                 (4)
+#define ENCODER_PIN_PUSH                  (5)
 
 #define ENCODER_BTN_PUSH                  (0)
 #define ENCODER_BTN_UP                    (1)
