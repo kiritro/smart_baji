@@ -37,6 +37,7 @@
 #include "hal_bat.h"
 #include "hal_led.h"
 #include "hal_buzzer.h"
+#include "hal_encoder.h"
 #include "hal_init.h"
 
 #include "sys_log.h"
@@ -86,5 +87,7 @@ void hal_init(void)
     hal_sd_init();
     // 初始化蜂鸣器
     hal_buzzer_init();
+    // 初始化旋转编码器
+    hal_encoder_init();
 }
 
