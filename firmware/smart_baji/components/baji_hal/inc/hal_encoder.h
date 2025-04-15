@@ -22,7 +22,14 @@ extern "C" {
 /*********************************************************************
 * TYPEDEFS
 */
-
+typedef enum {
+    ENCODER_PRESS_NONE = 0,
+    ENCODER_PRESS_SHORT,
+    ENCODER_PRESS_LONG ,
+    ENCODER_PRESS_DOUBLE,
+    ENCODER_PRESS_UP,
+    ENCODER_PRESS_DOWN
+} encoder_press_type_t;
 
 /*********************************************************************
  * CONSTANTS
@@ -47,6 +54,18 @@ extern "C" {
 /*********************************************************************
  * GLOBAL FUNCTIONS
  */
+/**
+ * @brief 初始化编码器硬件模块
+ * 该函数用于对编码器进行初始化操作，确保编码器能够正常工作。
+ */
+extern void hal_encoder_init(void);
+
+/**
+ * @brief 获取编码器的按键状态
+ * 该函数用于读取编码器的按键是否被按下，并返回相应的状态值。
+ * @return int 按键状态，具体含义根据实现而定。
+ */
+extern encoder_press_type_t hal_encoder_get_press(void);
 
 
 
