@@ -36,6 +36,7 @@
 #include "iot_button.h"
 
 #include "sys_log.h"
+#include "hal_api.h"
 #include "hal_encoder.h"
 
 /*********************************************************************
@@ -57,6 +58,18 @@
 
 #define ENCODER_BUTTON_ACTIVE_LEVEL       (0)
 
+#define ENCODER_TONE_SHORT_FREQ           (1500)
+#define ENCODER_TONE_SHORT_DUR            (50)
+#define ENCODER_TONE_LONG_FREQ            (1800)
+#define ENCODER_TONE_LONG_DUR             (100)
+#define ENCODER_TONE_DOUBLE_FREQ          (1500)
+#define ENCODER_TONE_DOUBLE_DUR           (80)
+#define ENCODER_TONE_UP_FREQ              (800)
+#define ENCODER_TONE_UP_DUR               (20)
+#define ENCODER_TONE_DOWN_FREQ            (1200)
+#define ENCODER_TONE_DOWN_DUR             (20)
+
+
 /*********************************************************************
 * TYPEDEFS
 */
@@ -65,6 +78,7 @@ typedef struct
     button_handle_t btn[ENCODER_BUTTON_NUM];
     encoder_press_type_t status;
     encoder_press_type_t statustmp;
+    uint8_t tone;
 } encoder_t;
 
 /*********************************************************************
@@ -99,6 +113,10 @@ static encoder_t m_encoder;
 
 void hal_encoder_init(void)
 {
+    m_encoder.tone = 1;
+    m_encoder.status = ENCODER_PRESS_NONE;
+    m_encoder.statustmp = ENCODER_PRESS_NONE;
+
     button_config_t cfg =
     {
         .type = BUTTON_TYPE_GPIO,
@@ -128,23 +146,43 @@ encoder_press_type_t hal_encoder_get_press(void)
     return type;
 }
 
+void hal_encoder_tone_set(uint8_t enable)
+{
+    if(enable == 1 || enable == 0)
+    {
+        m_encoder.tone = enable;
+    }
+}
+
 
 static void button_press_short_cb(void *arg, void *data)
 {
     m_encoder.status = ENCODER_PRESS_SHORT;
     sys_logi(ENCODER_TAG, "ENCODER SHORT PUSH");
+    if(m_encoder.tone)
+    {
+        hal_buzzer_set(ENCODER_TONE_SHORT_FREQ, ENCODER_TONE_SHORT_DUR);
+    }
 }
 
 static void button_press_long_cb(void *arg, void *data)
 {
     m_encoder.status = ENCODER_PRESS_LONG;
     sys_logi(ENCODER_TAG, "ENCODER LONG PUSH");
+    if(m_encoder.tone)
+    {
+        hal_buzzer_set(ENCODER_TONE_LONG_FREQ, ENCODER_TONE_LONG_DUR);
+    }
 }
 
 static void button_press_double_cb(void *arg, void *data)
 {
     m_encoder.status = ENCODER_PRESS_DOUBLE;
     sys_logi(ENCODER_TAG, "ENCODER DOUBLE PUSH");
+    if(m_encoder.tone)
+    {
+        hal_buzzer_set(ENCODER_TONE_DOUBLE_FREQ, ENCODER_TONE_DOUBLE_DUR);
+    }
 }
 
 static void button_press_up_cb(void *arg, void *data)
@@ -165,10 +203,25 @@ static void button_press_up_cb(void *arg, void *data)
         else if(iot_button_get_event(arg) == BUTTON_PRESS_UP)
         {
             uint32_t ticks = iot_button_get_ticks_time(m_encoder.btn[ENCODER_BTN_UP]);
-            if(ticks > MIN_TICKS && ticks < MAX_TICKS)
+            if(ticks > ENCODER_MIN_TICKS && ticks < ENCODER_MAX_TICKS)
             {
                 m_encoder.status = m_encoder.statustmp;
-                sys_logi(ENCODER_TAG, "ENCODER diff%d", m_encoder.status);
+                if(m_encoder.status == ENCODER_PRESS_UP)
+                {
+                    if(m_encoder.tone)
+                    {
+                        hal_buzzer_set(ENCODER_TONE_UP_FREQ, ENCODER_TONE_UP_DUR);
+                    }
+                    sys_logi(ENCODER_TAG, "ENCODER DIFF+");
+                }
+                else if(m_encoder.status == ENCODER_PRESS_DOWN)
+                {
+                    if(m_encoder.tone)
+                    {
+                        hal_buzzer_set(ENCODER_TONE_DOWN_FREQ, ENCODER_TONE_DOWN_DUR);
+                    }
+                    sys_logi(ENCODER_TAG, "ENCODER DIFF-");
+                }
             }
             else
             {
