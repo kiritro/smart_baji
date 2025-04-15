@@ -52,6 +52,9 @@
 #define ENCODER_BTN_DOWN                  (2)
 #define ENCODER_BUTTON_NUM                (3)
 
+#define ENCODER_MIN_TICKS                 (20)
+#define ENCODER_MAX_TICKS                 (100)
+
 #define ENCODER_BUTTON_ACTIVE_LEVEL       (0)
 
 /*********************************************************************
@@ -61,6 +64,7 @@ typedef struct
 {
     button_handle_t btn[ENCODER_BUTTON_NUM];
     encoder_press_type_t status;
+    encoder_press_type_t statustmp;
 } encoder_t;
 
 /*********************************************************************
@@ -114,6 +118,7 @@ void hal_encoder_init(void)
     iot_button_register_cb(m_encoder.btn[ENCODER_BTN_PUSH], BUTTON_DOUBLE_CLICK, button_press_double_cb, NULL);
     iot_button_register_cb(m_encoder.btn[ENCODER_BTN_PUSH], BUTTON_LONG_PRESS_START, button_press_long_cb, NULL);
     iot_button_register_cb(m_encoder.btn[ENCODER_BTN_UP], BUTTON_PRESS_DOWN, button_press_up_cb, NULL);
+    iot_button_register_cb(m_encoder.btn[ENCODER_BTN_UP], BUTTON_PRESS_UP, button_press_up_cb, NULL);
 }
 
 encoder_press_type_t hal_encoder_get_press(void)
@@ -146,15 +151,29 @@ static void button_press_up_cb(void *arg, void *data)
 {
     if(!iot_button_get_key_level(m_encoder.btn[ENCODER_BTN_PUSH]))
     {
-        if(iot_button_get_key_level(m_encoder.btn[ENCODER_BTN_DOWN]))
+        if(iot_button_get_event(arg) == BUTTON_PRESS_DOWN)
         {
-            m_encoder.status = ENCODER_PRESS_DOWN;
-            sys_logi(ENCODER_TAG, "ENCODER DIFF--");
+            if(iot_button_get_key_level(m_encoder.btn[ENCODER_BTN_DOWN]))
+            {
+                m_encoder.statustmp = ENCODER_PRESS_DOWN;
+            }
+            else
+            {
+                m_encoder.statustmp = ENCODER_PRESS_UP;
+            }
         }
-        else
+        else if(iot_button_get_event(arg) == BUTTON_PRESS_UP)
         {
-            m_encoder.status = ENCODER_PRESS_UP;
-            sys_logi(ENCODER_TAG, "ENCODER DIFF++");
+            uint32_t ticks = iot_button_get_ticks_time(m_encoder.btn[ENCODER_BTN_UP]);
+            if(ticks > MIN_TICKS && ticks < MAX_TICKS)
+            {
+                m_encoder.status = m_encoder.statustmp;
+                sys_logi(ENCODER_TAG, "ENCODER diff%d", m_encoder.status);
+            }
+            else
+            {
+                m_encoder.statustmp = ENCODER_PRESS_NONE;
+            }
         }
     }
 }
