@@ -22,9 +22,9 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  *
- *
- * FileName : /baji_hal/src/hal_init.c
- * Author: Kiritro  Version: v0.1  Date: 2025/4/1
+ * 
+ * FileName : /baji_hal/src/hal_lcd.c
+ * Author: Kiritro  Version: v0.1  Date: 2025/4/15
  * Description: Function introduction
  * ChangeLog: Change Notes
  *
@@ -33,15 +33,8 @@
 /*********************************************************************
  * INCLUDES
  */
-#include "hal_sd.h"
-#include "hal_bat.h"
-#include "hal_led.h"
-#include "hal_lcd.h"
-#include "hal_buzzer.h"
-#include "hal_encoder.h"
-#include "hal_init.h"
-
 #include "sys_log.h"
+#include "hal_lcd.h"
 
 /*********************************************************************
  * MACROS
@@ -78,19 +71,9 @@
  */
 
 
-void hal_init(void)
-{
-    // 初始化电池
-    hal_bat_init();
-    // 初始化RGB LED
-    hal_led_init();
-    // 初始化SD卡
-    hal_sd_init();
-    // 初始化蜂鸣器
-    hal_buzzer_init();
-    // 初始化旋转编码器
-    hal_encoder_init();
-    // 初始化LCD
-    hal_lcd_init();
-}
+
+ void hal_lcd_init(void)
+ {
+    
+ }
 

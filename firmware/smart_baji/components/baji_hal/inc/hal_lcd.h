@@ -1,17 +1,11 @@
-#ifndef __HAL_API_H__
-#define __HAL_API_H__
+#ifndef __HAL_LCD_H__
+#define __HAL_LCD_H__
 
 
 /*********************************************************************
  * INCLUDES
  */
-#include "hal_init.h"
-#include "hal_buzzer.h"
-#include "hal_encoder.h"
-#include "hal_bat.h"
-#include "hal_led.h"
-#include "hal_lcd.h"
-#include "hal_sd.h"
+
 
 /*********************************************************************
  * CPPMIX
@@ -53,11 +47,11 @@ extern "C" {
 /*********************************************************************
  * GLOBAL FUNCTIONS
  */
-
+extern void hal_lcd_init(void);
 
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif /* __HAL_API_H__ */
+#endif /* __HAL_LCD_H__ */

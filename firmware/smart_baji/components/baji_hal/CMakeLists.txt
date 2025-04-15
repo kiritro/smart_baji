@@ -3,6 +3,7 @@ set(srcs "src/hal_init.c"
          "src/hal_buzzer.c"
          "src/hal_bat.c"
          "src/hal_led.c"
+         "src/hal_lcd.c"
          "src/hal_sd.c"
          )
 
