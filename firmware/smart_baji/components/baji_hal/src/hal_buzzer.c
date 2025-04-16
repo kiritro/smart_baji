@@ -227,12 +227,12 @@ static void buzzer_task(void *param)
 }
 
 static buzzer_t *buzzer_create(gpio_num_t gpio_num,
-                        ledc_clk_cfg_t clk_cfg,
-                        ledc_mode_t speed_mode,
-                        ledc_timer_bit_t timer_bit,
-                        ledc_timer_t timer_num,
-                        ledc_channel_t channel,
-                        uint32_t idle_level)
+                               ledc_clk_cfg_t clk_cfg,
+                               ledc_mode_t speed_mode,
+                               ledc_timer_bit_t timer_bit,
+                               ledc_timer_t timer_num,
+                               ledc_channel_t channel,
+                               uint32_t idle_level)
 {
     buzzer_t *buzzer = (buzzer_t *)malloc(sizeof(buzzer_t));
     if (buzzer == NULL)

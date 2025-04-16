@@ -52,8 +52,8 @@
 #if LED_STRIP_USE_DMA
 #define LED_STRIP_MEMORY_BLOCK_WORDS   (1024)
 #else
-#define LED_STRIP_MEMORY_BLOCK_WORDS   (0)   
-#endif 
+#define LED_STRIP_MEMORY_BLOCK_WORDS   (0)
+#endif
 
 /*********************************************************************
 * TYPEDEFS
@@ -104,7 +104,7 @@ static led_strip_handle_t configure_led(void);
 void hal_led_init(void)
 {
     m_rgb = configure_led();
-    
+
     hal_led_set_color(m_led.color);
     hal_led_set_brightness(m_led.brightness);
 }

@@ -1,8 +1,11 @@
-set(srcs "")
+set(srcs "src/sys_init.c"
+         )
 
 set(public_include "inc")
 
+set(requires baji_hal baji_service)
+
 idf_component_register(SRCS ${srcs}
                        INCLUDE_DIRS ${public_include}
-                       REQUIRES 
+                       REQUIRES ${requires}
                       )

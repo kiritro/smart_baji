@@ -1,4 +1,4 @@
-/*********************************************************************
+/***********************************************************
  *
  * MIT License
  *
@@ -22,23 +22,18 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  *
- *
- * FileName : main.c
- * Author: kiritro  Version: v0.1  Date: 2025/3/31
+ * 
+ * FileName : /baji_service/src/service_display.c
+ * Author: Kiritro  Version: v0.1  Date: 2025/4/16
  * Description: Function introduction
  * ChangeLog: Change Notes
  *
-**********************************************************************/
+***********************************************************/
 
 /*********************************************************************
  * INCLUDES
  */
-#include <stdio.h>
-#include "sdkconfig.h"
-#include "freertos/FreeRTOS.h"
-#include "freertos/task.h"
 
-#include "sys_init.h"
 
 /*********************************************************************
  * MACROS
@@ -73,15 +68,5 @@
 /*********************************************************************
  * GLOBAL FUNCTIONS
  */
-
-
-
-/**
- * [app_main description]
- */
-void app_main(void)
-{
-    sys_init();
-}
 
 

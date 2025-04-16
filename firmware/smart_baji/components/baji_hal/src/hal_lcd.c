@@ -22,7 +22,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  *
- * 
+ *
  * FileName : /baji_hal/src/hal_lcd.c
  * Author: Kiritro  Version: v0.1  Date: 2025/4/15
  * Description: Function introduction
@@ -72,8 +72,8 @@
 
 
 
- void hal_lcd_init(void)
- {
-    
- }
+void hal_lcd_init(void)
+{
+
+}
 

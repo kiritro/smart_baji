@@ -1,5 +1,5 @@
-#ifndef __SERVICE_INIT_H__
-#define __SERVICE_INIT_H__
+#ifndef __SYS_INIT_H__
+#define __SYS_INIT_H__
 
 
 /*********************************************************************
@@ -48,16 +48,18 @@ extern "C" {
  * GLOBAL FUNCTIONS
  */
 /**
- * @brief 初始化服务的全局函数声明。
- *
- * 此函数用于执行服务的初始化操作，具体的初始化逻辑在对应的 .c 文件中实现。
- * 调用该函数后，服务将进入可用状态。
+ * @brief 初始化系统的全局函数声明
+ * 
+ * 该函数用于执行系统的初始化操作，包括但不限于硬件初始化、全局变量初始化等。
+ * 具体的初始化逻辑在函数定义处实现。
+ * 
+ * @return void 该函数无返回值
  */
-extern void service_init(void);
+extern void sys_init(void);
 
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif /* __SERVICE_INIT_H__ */
+#endif /* __SYS_INIT_H__ */

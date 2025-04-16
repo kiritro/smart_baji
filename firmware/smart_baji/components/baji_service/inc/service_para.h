@@ -1,5 +1,5 @@
-#ifndef __SERVICE_INIT_H__
-#define __SERVICE_INIT_H__
+#ifndef __SERVICE_PARA_H__
+#define __SERVICE_PARA_H__
 
 
 /*********************************************************************
@@ -47,17 +47,11 @@ extern "C" {
 /*********************************************************************
  * GLOBAL FUNCTIONS
  */
-/**
- * @brief 初始化服务的全局函数声明。
- *
- * 此函数用于执行服务的初始化操作，具体的初始化逻辑在对应的 .c 文件中实现。
- * 调用该函数后，服务将进入可用状态。
- */
-extern void service_init(void);
+
 
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif /* __SERVICE_INIT_H__ */
+#endif /* __SERVICE_PARA_H__ */

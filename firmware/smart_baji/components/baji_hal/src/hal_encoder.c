@@ -22,7 +22,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  *
- * 
+ *
  * FileName : /baji_hal/src/hal_encoder.c
  * Author: Kiritro  Version: v0.1  Date: 2025/4/7
  * Description: Function introduction
@@ -100,10 +100,10 @@ static encoder_t m_encoder;
 /*********************************************************************
  * LOCAL FUNCTIONS
  */
- static void button_press_short_cb(void *arg, void *data);
- static void button_press_long_cb(void *arg, void *data);
- static void button_press_double_cb(void *arg, void *data);
- static void button_press_up_cb(void *arg, void *data);
+static void button_press_short_cb(void *arg, void *data);
+static void button_press_long_cb(void *arg, void *data);
+static void button_press_double_cb(void *arg, void *data);
+static void button_press_up_cb(void *arg, void *data);
 
 /*********************************************************************
  * GLOBAL FUNCTIONS
