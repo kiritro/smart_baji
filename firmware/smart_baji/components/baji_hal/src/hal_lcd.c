@@ -55,9 +55,6 @@
  */
 #define LCD_TAG                        "HAL_LCD"
 
-#define LCD_H_RES                     (142)
-#define LCD_V_RES                     (428)
-
 #define LCD_SPI_NUM                   (SPI2_HOST)
 #define LCD_PIXEL_CLK_HZ              (60 * 1000 * 1000)
 #define LCD_CMD_BITS                  (8)
@@ -66,8 +63,6 @@
 #define LCD_TRANS_QUEUE_DEPTH         (10)
 #define LCD_COLOR_SPACE               (ESP_LCD_COLOR_SPACE_RGB)
 #define LCD_BITS_PER_PIXEL            (16)
-#define LCD_DRAW_BUFF_DOUBLE          (1)
-#define LCD_DRAW_BUFF_HEIGHT          (50)
 #define LCD_BL_ON_LEVEL               (1)
 
 #define LCD_GPIO_SCLK                 (GPIO_NUM_48)
@@ -80,7 +75,12 @@
 /*********************************************************************
 * TYPEDEFS
 */
-
+typedef struct
+{
+    uint8_t brightness;  // lcd亮度值，范围通常为0到100
+    esp_lcd_panel_io_handle_t lcd_io;
+    esp_lcd_panel_handle_t lcd_panel;
+} lcd_t;
 
 /*********************************************************************
  * CONSTANTS
@@ -90,8 +90,7 @@
 /*********************************************************************
  * LOCAL VARIABLES
  */
-static esp_lcd_panel_io_handle_t lcd_io = NULL;
-static esp_lcd_panel_handle_t lcd_panel = NULL;
+static lcd_t m_lcd = {0, NULL, NULL};
 
 /*********************************************************************
  * GLOBAL VARIABLES
@@ -115,12 +114,36 @@ void hal_lcd_init(void)
     gpio_set_level(LCD_GPIO_BL, LCD_BL_ON_LEVEL);
 }
 
+void hal_lcd_set_brightness(uint8_t brightness)
+{
+    if(brightness <= 100)
+    {
+        m_lcd.brightness = brightness;
+
+
+    }
+}
+
+uint8_t hal_lcd_get_brightness(void)
+{
+    return m_lcd.brightness;
+}
+
+void *hal_lcd_get_panel(void)
+{
+    return m_lcd.lcd_panel;
+}
+
+void *hal_lcd_get_io(void)
+{
+    return m_lcd.lcd_io;
+}
+
 
 static esp_err_t app_lcd_init(void)
 {
     esp_err_t ret = ESP_OK;
 
-    /* LCD backlight */
     gpio_config_t bk_gpio_config =
     {
         .mode = GPIO_MODE_OUTPUT,
@@ -153,7 +176,7 @@ static esp_err_t app_lcd_init(void)
         .spi_mode = LCD_SPI_MODE,
         .trans_queue_depth = LCD_TRANS_QUEUE_DEPTH,
     };
-    ESP_GOTO_ON_ERROR(esp_lcd_new_panel_io_spi((esp_lcd_spi_bus_handle_t)LCD_SPI_NUM, &io_config, &lcd_io), err, LCD_TAG, "New panel IO failed");
+    ESP_GOTO_ON_ERROR(esp_lcd_new_panel_io_spi((esp_lcd_spi_bus_handle_t)LCD_SPI_NUM, &io_config, &m_lcd.lcd_io), err, LCD_TAG, "New panel IO failed");
 
     ESP_LOGI(LCD_TAG, "Install LCD driver");
     const esp_lcd_panel_dev_config_t panel_config =
@@ -162,24 +185,25 @@ static esp_err_t app_lcd_init(void)
         .color_space = LCD_COLOR_SPACE,
         .bits_per_pixel = LCD_BITS_PER_PIXEL,
     };
-    ESP_GOTO_ON_ERROR(esp_lcd_new_panel_nv3007a(lcd_io, &panel_config, &lcd_panel), err, LCD_TAG, "New panel failed");
+    ESP_GOTO_ON_ERROR(esp_lcd_new_panel_nv3007a(m_lcd.lcd_io, &panel_config, &m_lcd.lcd_panel), err, LCD_TAG, "New panel failed");
 
-    ESP_ERROR_CHECK(esp_lcd_panel_reset(lcd_panel));
-    ESP_ERROR_CHECK(esp_lcd_panel_init(lcd_panel));
-    ESP_ERROR_CHECK(esp_lcd_panel_swap_xy(lcd_panel, false));
-    ESP_ERROR_CHECK(esp_lcd_panel_mirror(lcd_panel, false, false));
-    ESP_ERROR_CHECK(esp_lcd_panel_invert_color(lcd_panel, false));
+    ESP_ERROR_CHECK(esp_lcd_panel_reset(m_lcd.lcd_panel));
+    ESP_ERROR_CHECK(esp_lcd_panel_init(m_lcd.lcd_panel));
+    ESP_ERROR_CHECK(esp_lcd_panel_swap_xy(m_lcd.lcd_panel, true));
+    ESP_ERROR_CHECK(esp_lcd_panel_mirror(m_lcd.lcd_panel, true, false));
+    ESP_ERROR_CHECK(esp_lcd_panel_set_gap(m_lcd.lcd_panel, 0, 14));
+    ESP_ERROR_CHECK(esp_lcd_panel_invert_color(m_lcd.lcd_panel, false));
 
     return ret;
 
 err:
-    if (lcd_panel)
+    if (m_lcd.lcd_panel)
     {
-        esp_lcd_panel_del(lcd_panel);
+        esp_lcd_panel_del(m_lcd.lcd_panel);
     }
-    if (lcd_io)
+    if (m_lcd.lcd_io)
     {
-        esp_lcd_panel_io_del(lcd_io);
+        esp_lcd_panel_io_del(m_lcd.lcd_io);
     }
     spi_bus_free(LCD_SPI_NUM);
     return ret;

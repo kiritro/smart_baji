@@ -47,7 +47,7 @@ extern "C" {
 /*********************************************************************
  * GLOBAL FUNCTIONS
  */
-
+extern void service_display_init(void);
 
 
 #ifdef __cplusplus

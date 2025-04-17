@@ -33,6 +33,7 @@
 /*********************************************************************
  * INCLUDES
  */
+#include "service_display.h"
 #include "service_init.h"
 
 
@@ -74,6 +75,6 @@
 
 void service_init(void)
 {
-
+    service_display_init();
 }
 
