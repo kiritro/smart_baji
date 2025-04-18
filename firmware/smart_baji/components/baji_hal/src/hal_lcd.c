@@ -45,6 +45,7 @@
 #include "driver/gpio.h"
 #include "esp_log.h"
 #include "esp_check.h"
+#include "driver/ledc.h"
 
 #include "sys_log.h"
 #include "hal_lcd.h"
@@ -72,6 +73,16 @@
 #define LCD_GPIO_CS                   (GPIO_NUM_14)
 #define LCD_GPIO_BL                   (GPIO_NUM_21)
 
+#define LEDC_TIMER                    LEDC_TIMER_0
+#define LEDC_MODE                     LEDC_LOW_SPEED_MODE
+#define LEDC_CHANNEL                  LEDC_CHANNEL_0
+#define LEDC_DUTY_RES                 LEDC_TIMER_10_BIT            // Set duty resolution to 10 bits
+#define LEDC_DUTY                     (500)                        // Set duty to 50%. ((2 ^ 10) - 1) * 50% = 500
+#define LEDC_FREQUENCY                (20000)                      // Frequency in Hertz. Set frequency at 20 kHz
+#define BRIGHTNESS_PWM_DUTY_MIN       (0)
+#define BRIGHTNESS_PWM_DUTY_MAX       (1000)
+#define BRIGHTNESS_PWM_DUTY_STEP      (int)(abs(BRIGHTNESS_PWM_DUTY_MAX - BRIGHTNESS_PWM_DUTY_MIN) / 100 )
+
 /*********************************************************************
 * TYPEDEFS
 */
@@ -90,7 +101,7 @@ typedef struct
 /*********************************************************************
  * LOCAL VARIABLES
  */
-static lcd_t m_lcd = {0, NULL, NULL};
+static lcd_t m_lcd = {80, NULL, NULL}; // 初始亮度值为80%
 
 /*********************************************************************
  * GLOBAL VARIABLES
@@ -100,7 +111,8 @@ static lcd_t m_lcd = {0, NULL, NULL};
 /*********************************************************************
  * LOCAL FUNCTIONS
  */
-static esp_err_t app_lcd_init(void);
+static esp_err_t lcd_panel_init(void);
+static void lcd_brightness_init(void);
 
 /*********************************************************************
  * GLOBAL FUNCTIONS
@@ -110,8 +122,8 @@ static esp_err_t app_lcd_init(void);
 
 void hal_lcd_init(void)
 {
-    app_lcd_init();
-    gpio_set_level(LCD_GPIO_BL, LCD_BL_ON_LEVEL);
+    lcd_panel_init();
+    hal_lcd_set_brightness(m_lcd.brightness);
 }
 
 void hal_lcd_set_brightness(uint8_t brightness)
@@ -119,8 +131,14 @@ void hal_lcd_set_brightness(uint8_t brightness)
     if(brightness <= 100)
     {
         m_lcd.brightness = brightness;
-
-
+        int set_duty = BRIGHTNESS_PWM_DUTY_STEP * m_lcd.brightness;
+    
+        if(set_duty > BRIGHTNESS_PWM_DUTY_MAX)
+        {
+            set_duty = BRIGHTNESS_PWM_DUTY_MAX;
+        }
+        ledc_set_duty(LEDC_MODE, LEDC_CHANNEL, set_duty);
+        ledc_update_duty(LEDC_MODE, LEDC_CHANNEL);
     }
 }
 
@@ -140,17 +158,36 @@ void *hal_lcd_get_io(void)
 }
 
 
-static esp_err_t app_lcd_init(void)
+static void lcd_brightness_init(void)
+{
+    ledc_timer_config_t ledc_timer =
+    {
+        .speed_mode = LEDC_MODE,
+        .timer_num = LEDC_TIMER,
+        .duty_resolution = LEDC_DUTY_RES,
+        .freq_hz = LEDC_FREQUENCY,
+        .clk_cfg = LEDC_AUTO_CLK
+    };
+    SYS_ERROR_CHECK(ledc_timer_config(&ledc_timer));
+
+    ledc_channel_config_t ledc_channel =
+    {
+        .speed_mode = LEDC_MODE,
+        .channel = LEDC_CHANNEL,
+        .timer_sel = LEDC_TIMER,
+        .intr_type = LEDC_INTR_DISABLE,
+        .gpio_num = LCD_GPIO_BL,
+        .duty = LEDC_DUTY,
+        .hpoint = 0
+    };
+    SYS_ERROR_CHECK(ledc_channel_config(&ledc_channel));
+}
+
+static esp_err_t lcd_panel_init(void)
 {
     esp_err_t ret = ESP_OK;
 
-    gpio_config_t bk_gpio_config =
-    {
-        .mode = GPIO_MODE_OUTPUT,
-        .pin_bit_mask = 1ULL << LCD_GPIO_BL
-    };
-    ESP_ERROR_CHECK(gpio_config(&bk_gpio_config));
-    ESP_ERROR_CHECK(gpio_set_level(LCD_GPIO_BL, !LCD_BL_ON_LEVEL));
+    lcd_brightness_init();
 
     /* LCD initialization */
     ESP_LOGI(LCD_TAG, "Initialize SPI bus");
