@@ -28,7 +28,8 @@ typedef enum {
     ENCODER_PRESS_LONG ,
     ENCODER_PRESS_DOUBLE,
     ENCODER_PRESS_UP,
-    ENCODER_PRESS_DOWN
+    ENCODER_PRESS_DOWN,
+    ENCODER_PRESS_PRESSED,
 } encoder_press_type_t;
 
 /*********************************************************************

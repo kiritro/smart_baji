@@ -100,6 +100,7 @@ static encoder_t m_encoder;
 /*********************************************************************
  * LOCAL FUNCTIONS
  */
+static void button_press_pressed_cb(void *arg, void *data);
 static void button_press_short_cb(void *arg, void *data);
 static void button_press_long_cb(void *arg, void *data);
 static void button_press_double_cb(void *arg, void *data);
@@ -132,6 +133,8 @@ void hal_encoder_init(void)
     m_encoder.btn[ENCODER_BTN_UP] = iot_button_create(&cfg);
     cfg.gpio_button_config.gpio_num = ENCODER_PIN_DIFFB;
     m_encoder.btn[ENCODER_BTN_DOWN] = iot_button_create(&cfg);
+    iot_button_register_cb(m_encoder.btn[ENCODER_BTN_PUSH], BUTTON_PRESS_DOWN, button_press_pressed_cb, NULL);
+    iot_button_register_cb(m_encoder.btn[ENCODER_BTN_PUSH], BUTTON_PRESS_UP, button_press_pressed_cb, NULL);
     iot_button_register_cb(m_encoder.btn[ENCODER_BTN_PUSH], BUTTON_SINGLE_CLICK, button_press_short_cb, NULL);
     iot_button_register_cb(m_encoder.btn[ENCODER_BTN_PUSH], BUTTON_DOUBLE_CLICK, button_press_double_cb, NULL);
     iot_button_register_cb(m_encoder.btn[ENCODER_BTN_PUSH], BUTTON_LONG_PRESS_START, button_press_long_cb, NULL);
@@ -142,7 +145,10 @@ void hal_encoder_init(void)
 encoder_press_type_t hal_encoder_get_press(void)
 {
     encoder_press_type_t type = m_encoder.status;
-    m_encoder.status = ENCODER_PRESS_NONE;
+    if(m_encoder.status != ENCODER_PRESS_PRESSED)
+    {
+        m_encoder.status = ENCODER_PRESS_NONE;
+    }
     return type;
 }
 
@@ -155,9 +161,21 @@ void hal_encoder_tone_set(uint8_t enable)
 }
 
 
+static void button_press_pressed_cb(void *arg, void *data)
+{
+    if(iot_button_get_event(arg) == BUTTON_PRESS_DOWN)
+    {
+        m_encoder.status = ENCODER_PRESS_PRESSED;
+    }
+    else if(iot_button_get_event(arg) == BUTTON_PRESS_UP)
+    {
+        m_encoder.status = ENCODER_PRESS_NONE;
+    }
+}
+
 static void button_press_short_cb(void *arg, void *data)
 {
-    m_encoder.status = ENCODER_PRESS_SHORT;
+    // m_encoder.status = ENCODER_PRESS_SHORT;
     sys_logi(ENCODER_TAG, "ENCODER SHORT PUSH");
     if(m_encoder.tone)
     {
@@ -167,7 +185,7 @@ static void button_press_short_cb(void *arg, void *data)
 
 static void button_press_long_cb(void *arg, void *data)
 {
-    m_encoder.status = ENCODER_PRESS_LONG;
+    // m_encoder.status = ENCODER_PRESS_LONG;
     sys_logi(ENCODER_TAG, "ENCODER LONG PUSH");
     if(m_encoder.tone)
     {
@@ -177,7 +195,7 @@ static void button_press_long_cb(void *arg, void *data)
 
 static void button_press_double_cb(void *arg, void *data)
 {
-    m_encoder.status = ENCODER_PRESS_DOUBLE;
+    // m_encoder.status = ENCODER_PRESS_DOUBLE;
     sys_logi(ENCODER_TAG, "ENCODER DOUBLE PUSH");
     if(m_encoder.tone)
     {

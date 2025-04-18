@@ -43,6 +43,7 @@
 
 #include "sys_log.h"
 #include "hal_lcd.h"
+#include "hal_encoder.h"
 #include "service_display.h"
 
 /*********************************************************************
@@ -70,6 +71,8 @@
  * LOCAL VARIABLES
  */
 static lv_disp_t *lvgl_disp = NULL;
+static lv_indev_t *indev_encoder = NULL;
+static lv_group_t * lvgl_group = NULL;
 
 /*********************************************************************
  * GLOBAL VARIABLES
@@ -80,6 +83,7 @@ static lv_disp_t *lvgl_disp = NULL;
  * LOCAL FUNCTIONS
  */
 static esp_err_t service_lvgl_init(void);
+static void lvgl_port_encoder_read(lv_indev_t *indev_drv, lv_indev_data_t *data);
 
 /*********************************************************************
  * GLOBAL FUNCTIONS
@@ -96,9 +100,9 @@ void service_display_init(void)
     lvgl_port_unlock();
 }
 
+
 static esp_err_t service_lvgl_init(void)
 {
-    /* Initialize LVGL */
     const lvgl_port_cfg_t lvgl_cfg =
     {
         .task_priority = LVGL_TASK_PRIORITY,         /* LVGL task priority */
@@ -109,8 +113,7 @@ static esp_err_t service_lvgl_init(void)
     };
     ESP_RETURN_ON_ERROR(lvgl_port_init(&lvgl_cfg), DISPLAY_TAG, "LVGL port initialization failed");
 
-    /* Add LCD screen */
-    ESP_LOGI(DISPLAY_TAG, "Add LCD screen");
+    sys_logi(DISPLAY_TAG, "Add LCD screen");
     const lvgl_port_display_cfg_t disp_cfg =
     {
         .io_handle = hal_lcd_get_io(),
@@ -120,7 +123,6 @@ static esp_err_t service_lvgl_init(void)
         .hres = LCD_H_RES,
         .vres = LCD_V_RES,
         .monochrome = false,
-        /* Rotation values must be same as used in esp_lcd for initial settings of the screen */
         .rotation = {
             .swap_xy = true,
             .mirror_x = true,
@@ -134,16 +136,40 @@ static esp_err_t service_lvgl_init(void)
     };
     lvgl_disp = lvgl_port_add_disp(&disp_cfg);
 
-    // /* key pad init */
-    // static lv_indev_drv_t keypad_drv;
-    // lv_indev_drv_init(&keypad_drv);
+    lvgl_group = lv_group_create();
+    lv_group_set_default(lvgl_group);
 
-    // keypad_drv.type = LV_INDEV_TYPE_KEYPAD;
-    // keypad_drv.read_cb = keypad_read;
-    // indev_keypad = lv_indev_drv_register(&keypad_drv);
-    // group = lv_group_create();
-    // lv_indev_set_group(indev_keypad, group);
+    indev_encoder = lv_indev_create();
+    lv_indev_set_type(indev_encoder, LV_INDEV_TYPE_ENCODER);
+    lv_indev_set_read_cb(indev_encoder, lvgl_port_encoder_read);
+    // lv_indev_set_disp(indev_encoder, lvgl_disp);
+    lv_indev_set_group(indev_encoder, lvgl_group);
 
     return ESP_OK;
 }
 
+static void lvgl_port_encoder_read(lv_indev_t *indev_drv, lv_indev_data_t *data)
+{
+    encoder_press_type_t state = hal_encoder_get_press();
+
+    if(state == ENCODER_PRESS_UP)
+    {
+        data->enc_diff++;
+        // sys_logi(DISPLAY_TAG, "enc_diff: %d", data->enc_diff);
+    }
+    else if(state == ENCODER_PRESS_DOWN)
+    {
+        data->enc_diff--;
+        // sys_logi(DISPLAY_TAG, "enc_diff: %d", data->enc_diff);
+    }
+    else if(state == ENCODER_PRESS_PRESSED)
+    {
+        data->state = LV_INDEV_STATE_PRESSED;
+        // sys_logi(DISPLAY_TAG, "state: %d", data->state);
+    }
+    else if(state == ENCODER_PRESS_NONE)
+    {   
+        data->state = LV_INDEV_STATE_RELEASED;
+        data->enc_diff = 0;
+    }
+}
