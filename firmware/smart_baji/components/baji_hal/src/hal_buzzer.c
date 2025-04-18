@@ -54,8 +54,8 @@
 #define BUZZ_CLK_CFG                 LEDC_AUTO_CLK
 #define BUZZ_SPEED_MODE              LEDC_LOW_SPEED_MODE
 #define BUZZ_TIMER_BIT               LEDC_TIMER_13_BIT
-#define BUZZ_TIMER_NUM               LEDC_TIMER_0
-#define BUZZ_CHANNEL                 LEDC_CHANNEL_0
+#define BUZZ_TIMER_NUM               LEDC_TIMER_1
+#define BUZZ_CHANNEL                 LEDC_CHANNEL_1
 #define BUZZ_IDLE_LEVEL              (0)
 
 
