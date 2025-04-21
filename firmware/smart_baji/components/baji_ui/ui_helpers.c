@@ -57,12 +57,13 @@ void _ui_screen_change(lv_obj_t ** target, lv_screen_load_anim_t fademode, int s
     lv_screen_load_anim(*target, fademode, spd, delay, false);
 }
 
-void _ui_screen_delete(lv_obj_t ** target)
+void _ui_screen_delete( lv_obj_t ** target ) 
 {
-    if(*target == NULL) {
-        lv_obj_delete(*target);
-        target = NULL;
-    }
+   if(*target != NULL)
+   {
+      lv_obj_delete(*target);
+      *target = NULL;
+   }
 }
 
 void _ui_arc_increment(lv_obj_t * target, int val)

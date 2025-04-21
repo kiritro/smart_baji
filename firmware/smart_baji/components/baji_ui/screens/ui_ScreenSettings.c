@@ -21,7 +21,7 @@ static void ui_event_long_press_back(lv_event_t *e)
     lv_event_code_t event_code = lv_event_get_code(e);
     if (event_code == LV_EVENT_LONG_PRESSED)
     {
-        _ui_screen_change(&ui_ScreenMain, LV_SCR_LOAD_ANIM_FADE_ON, 500, 0, &ui_ScreenMain_screen_init);
+        _ui_screen_change(&ui_ScreenMain, LV_SCR_LOAD_ANIM_FADE_ON, 0, 0, &ui_ScreenMain_screen_init);
         _ui_screen_delete(&ui_ScreenSettings);
     }
 }
