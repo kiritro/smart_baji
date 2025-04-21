@@ -8,14 +8,14 @@
 static void ui_event_PanelSetting(lv_event_t *e)
 {
     lv_event_code_t event_code = lv_event_get_code(e);
-    // lv_obj_t *target = lv_event_get_target(e);
     if (event_code == LV_EVENT_CLICKED)
     {
         _ui_screen_change(&ui_ScreenSettings, LV_SCR_LOAD_ANIM_FADE_ON, 500, 0, &ui_ScreenSettings_screen_init);
+        _ui_screen_delete(&ui_ScreenMain);
     }
 }
 
-void ui_ScreenMain_create_group(void)
+static void ui_ScreenMain_create_group(void)
 {
     lv_group_remove_all_objs(lv_group_get_default());
     lv_group_add_obj(lv_group_get_default(), ui_PanelAppPixel);

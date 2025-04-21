@@ -16,10 +16,21 @@ static void ui_ScreenSettings_create_group(void)
     lv_group_add_obj(lv_group_get_default(), ui_PanelGetUsbStatus);
 }
 
+static void ui_event_long_press_back(lv_event_t *e)
+{
+    lv_event_code_t event_code = lv_event_get_code(e);
+    if (event_code == LV_EVENT_LONG_PRESSED)
+    {
+        _ui_screen_change(&ui_ScreenMain, LV_SCR_LOAD_ANIM_FADE_ON, 500, 0, &ui_ScreenMain_screen_init);
+        _ui_screen_delete(&ui_ScreenSettings);
+    }
+}
+
 void ui_ScreenSettings_screen_init(void)
 {
     ui_ScreenSettings = lv_obj_create(NULL);
     lv_obj_add_flag(ui_ScreenSettings, LV_OBJ_FLAG_SCROLLABLE); /// Flags
+    lv_obj_add_flag(ui_ScreenSettings, LV_OBJ_FLAG_CLICKABLE);
     lv_obj_set_scrollbar_mode(ui_ScreenSettings, LV_SCROLLBAR_MODE_OFF);
     lv_obj_set_style_pad_left(ui_ScreenSettings, 10, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_pad_right(ui_ScreenSettings, 10, LV_PART_MAIN | LV_STATE_DEFAULT);
@@ -29,7 +40,7 @@ void ui_ScreenSettings_screen_init(void)
     lv_obj_set_height(ui_PanelSetBrightness, 124);
     lv_obj_set_x(ui_PanelSetBrightness, 0);
     lv_obj_set_y(ui_PanelSetBrightness, 9);
-    lv_obj_add_flag(ui_PanelSetBrightness, LV_OBJ_FLAG_SCROLL_ON_FOCUS);
+    lv_obj_add_flag(ui_PanelSetBrightness, LV_OBJ_FLAG_SCROLL_ON_FOCUS | LV_OBJ_FLAG_EVENT_BUBBLE);
     lv_obj_remove_flag(ui_PanelSetBrightness, LV_OBJ_FLAG_SCROLLABLE);      /// Flags
     lv_obj_set_style_radius(ui_PanelSetBrightness, 15, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_bg_color(ui_PanelSetBrightness, lv_color_hex(0x1E2630), LV_PART_MAIN | LV_STATE_DEFAULT);
@@ -77,7 +88,7 @@ void ui_ScreenSettings_screen_init(void)
     lv_obj_set_height(ui_PanelSetBuzzer, 124);
     lv_obj_set_x(ui_PanelSetBuzzer, 80);
     lv_obj_set_y(ui_PanelSetBuzzer, 9);
-    lv_obj_add_flag(ui_PanelSetBuzzer, LV_OBJ_FLAG_SCROLL_ON_FOCUS);
+    lv_obj_add_flag(ui_PanelSetBuzzer, LV_OBJ_FLAG_SCROLL_ON_FOCUS | LV_OBJ_FLAG_EVENT_BUBBLE);
     lv_obj_remove_flag(ui_PanelSetBuzzer, LV_OBJ_FLAG_SCROLLABLE);      /// Flags
     lv_obj_set_style_radius(ui_PanelSetBuzzer, 15, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_bg_color(ui_PanelSetBuzzer, lv_color_hex(0x1E2630), LV_PART_MAIN | LV_STATE_DEFAULT);
@@ -111,7 +122,7 @@ void ui_ScreenSettings_screen_init(void)
     lv_obj_set_height(ui_PanelSetLedOnOff, 124);
     lv_obj_set_x(ui_PanelSetLedOnOff, 160);
     lv_obj_set_y(ui_PanelSetLedOnOff, 9);
-    lv_obj_add_flag(ui_PanelSetLedOnOff, LV_OBJ_FLAG_SCROLL_ON_FOCUS);
+    lv_obj_add_flag(ui_PanelSetLedOnOff, LV_OBJ_FLAG_SCROLL_ON_FOCUS | LV_OBJ_FLAG_EVENT_BUBBLE);
     lv_obj_remove_flag(ui_PanelSetLedOnOff, LV_OBJ_FLAG_SCROLLABLE);      /// Flags
     lv_obj_set_style_radius(ui_PanelSetLedOnOff, 15, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_bg_color(ui_PanelSetLedOnOff, lv_color_hex(0x1E2630), LV_PART_MAIN | LV_STATE_DEFAULT);
@@ -145,7 +156,7 @@ void ui_ScreenSettings_screen_init(void)
     lv_obj_set_height(ui_PanelSetLedRgb, 124);
     lv_obj_set_x(ui_PanelSetLedRgb, 240);
     lv_obj_set_y(ui_PanelSetLedRgb, 9);
-    lv_obj_add_flag(ui_PanelSetLedRgb, LV_OBJ_FLAG_SCROLL_ON_FOCUS);
+    lv_obj_add_flag(ui_PanelSetLedRgb, LV_OBJ_FLAG_SCROLL_ON_FOCUS | LV_OBJ_FLAG_EVENT_BUBBLE);
     lv_obj_remove_flag(ui_PanelSetLedRgb, LV_OBJ_FLAG_SCROLLABLE);      /// Flags
     lv_obj_set_style_radius(ui_PanelSetLedRgb, 15, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_bg_color(ui_PanelSetLedRgb, lv_color_hex(0x1E2630), LV_PART_MAIN | LV_STATE_DEFAULT);
@@ -192,7 +203,7 @@ void ui_ScreenSettings_screen_init(void)
     lv_obj_set_height(ui_PanelGetTFStatus, 124);
     lv_obj_set_x(ui_PanelGetTFStatus, 320);
     lv_obj_set_y(ui_PanelGetTFStatus, 9);
-    lv_obj_add_flag(ui_PanelGetTFStatus, LV_OBJ_FLAG_SCROLL_ON_FOCUS);
+    lv_obj_add_flag(ui_PanelGetTFStatus, LV_OBJ_FLAG_SCROLL_ON_FOCUS | LV_OBJ_FLAG_EVENT_BUBBLE);
     lv_obj_remove_flag(ui_PanelGetTFStatus, LV_OBJ_FLAG_SCROLLABLE);      /// Flags
     lv_obj_set_style_radius(ui_PanelGetTFStatus, 15, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_bg_color(ui_PanelGetTFStatus, lv_color_hex(0x1E2630), LV_PART_MAIN | LV_STATE_DEFAULT);
@@ -226,7 +237,7 @@ void ui_ScreenSettings_screen_init(void)
     lv_obj_set_height(ui_PanelGetUsbStatus, 124);
     lv_obj_set_x(ui_PanelGetUsbStatus, 400);
     lv_obj_set_y(ui_PanelGetUsbStatus, 9);
-    lv_obj_add_flag(ui_PanelGetUsbStatus, LV_OBJ_FLAG_SCROLL_ON_FOCUS);
+    lv_obj_add_flag(ui_PanelGetUsbStatus, LV_OBJ_FLAG_SCROLL_ON_FOCUS | LV_OBJ_FLAG_EVENT_BUBBLE);
     lv_obj_remove_flag(ui_PanelGetUsbStatus, LV_OBJ_FLAG_SCROLLABLE);      /// Flags
     lv_obj_set_style_radius(ui_PanelGetUsbStatus, 15, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_bg_color(ui_PanelGetUsbStatus, lv_color_hex(0x1E2630), LV_PART_MAIN | LV_STATE_DEFAULT);
@@ -254,6 +265,8 @@ void ui_ScreenSettings_screen_init(void)
     lv_obj_set_align(ui_ImageGetUSBStatusVal, LV_ALIGN_CENTER);
     lv_obj_add_flag(ui_ImageGetUSBStatusVal, LV_OBJ_FLAG_CLICKABLE);     /// Flags
     lv_obj_remove_flag(ui_ImageGetUSBStatusVal, LV_OBJ_FLAG_SCROLLABLE);      /// Flags
-
+    
+    lv_obj_add_event_cb(ui_ScreenSettings, ui_event_long_press_back, LV_EVENT_ALL, NULL);
+    
     ui_ScreenSettings_create_group();
 }
