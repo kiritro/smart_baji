@@ -143,8 +143,8 @@ static esp_err_t service_lvgl_init(void)
     indev_encoder = lv_indev_create();
     lv_indev_set_type(indev_encoder, LV_INDEV_TYPE_ENCODER);
     lv_indev_set_read_cb(indev_encoder, lvgl_port_encoder_read);
-    // lv_indev_set_disp(indev_encoder, lvgl_disp);
     lv_indev_set_group(indev_encoder, lvgl_group);
+    lv_indev_set_long_press_time(indev_encoder, 1000);
 
     return ESP_OK;
 }
