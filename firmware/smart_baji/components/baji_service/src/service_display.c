@@ -42,6 +42,7 @@
 #include "lv_demos.h"
 
 #include "sys_log.h"
+#include "ui.h"
 #include "hal_lcd.h"
 #include "hal_encoder.h"
 #include "service_display.h"
@@ -96,7 +97,7 @@ void service_display_init(void)
     service_lvgl_init();
 
     lvgl_port_lock(0);
-    lv_demo_widgets();
+    ui_init();
     lvgl_port_unlock();
 }
 
