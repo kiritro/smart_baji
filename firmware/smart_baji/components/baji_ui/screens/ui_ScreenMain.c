@@ -5,6 +5,24 @@
 
 #include "../ui.h"
 
+static void ui_event_PanelSetting(lv_event_t *e)
+{
+    lv_event_code_t event_code = lv_event_get_code(e);
+    // lv_obj_t *target = lv_event_get_target(e);
+    if (event_code == LV_EVENT_CLICKED)
+    {
+        _ui_screen_change(&ui_ScreenSettings, LV_SCR_LOAD_ANIM_FADE_ON, 500, 0, &ui_ScreenSettings_screen_init);
+    }
+}
+
+void ui_ScreenMain_create_group(void)
+{
+    lv_group_remove_all_objs(lv_group_get_default());
+    lv_group_add_obj(lv_group_get_default(), ui_PanelAppPixel);
+    lv_group_add_obj(lv_group_get_default(), ui_PanelAppBaji);
+    lv_group_add_obj(lv_group_get_default(), ui_PanelSetting);
+}
+
 void ui_ScreenMain_screen_init(void)
 {
     ui_ScreenMain = lv_obj_create(NULL);
@@ -151,6 +169,8 @@ void ui_ScreenMain_screen_init(void)
     lv_obj_remove_flag(ui_PanelAppPixel, LV_OBJ_FLAG_SCROLLABLE);      /// Flags
     lv_obj_set_style_radius(ui_PanelAppPixel, 15, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_border_width(ui_PanelAppPixel, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_color(ui_PanelAppPixel, lv_color_hex(0x44515F), LV_PART_MAIN | LV_STATE_FOCUSED);
+    lv_obj_set_style_bg_color(ui_PanelAppPixel, lv_color_hex(0x5C5960), LV_PART_MAIN | LV_STATE_PRESSED);
 
     ui_ImageAppPixel = lv_image_create(ui_PanelAppPixel);
     lv_image_set_src(ui_ImageAppPixel, &ui_img_pixel_png);
@@ -178,6 +198,8 @@ void ui_ScreenMain_screen_init(void)
     lv_obj_remove_flag(ui_PanelSetting, LV_OBJ_FLAG_SCROLLABLE);      /// Flags
     lv_obj_set_style_radius(ui_PanelSetting, 15, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_border_width(ui_PanelSetting, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_color(ui_PanelSetting, lv_color_hex(0x44515F), LV_PART_MAIN | LV_STATE_FOCUSED);
+    lv_obj_set_style_bg_color(ui_PanelSetting, lv_color_hex(0x5C5960), LV_PART_MAIN | LV_STATE_PRESSED);
 
     ui_ImageSetting = lv_image_create(ui_PanelSetting);
     lv_image_set_src(ui_ImageSetting, &ui_img_setting_png);
@@ -206,6 +228,8 @@ void ui_ScreenMain_screen_init(void)
     lv_obj_remove_flag(ui_PanelAppBaji, LV_OBJ_FLAG_SCROLLABLE);      /// Flags
     lv_obj_set_style_radius(ui_PanelAppBaji, 15, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_border_width(ui_PanelAppBaji, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_color(ui_PanelAppBaji, lv_color_hex(0x44515F), LV_PART_MAIN | LV_STATE_FOCUSED);
+    lv_obj_set_style_bg_color(ui_PanelAppBaji, lv_color_hex(0x5C5960), LV_PART_MAIN | LV_STATE_PRESSED);
 
     ui_ImageAppBaji = lv_image_create(ui_PanelAppBaji);
     lv_image_set_src(ui_ImageAppBaji, &ui_img_ane_png);
@@ -225,4 +249,7 @@ void ui_ScreenMain_screen_init(void)
     lv_label_set_text(ui_LabelSettingBaji, "吧唧");
     lv_obj_set_style_text_font(ui_LabelSettingBaji, &ui_font_FontMiSansNomal16, LV_PART_MAIN | LV_STATE_DEFAULT);
 
+    lv_obj_add_event_cb(ui_PanelSetting, ui_event_PanelSetting, LV_EVENT_ALL, NULL);
+
+    ui_ScreenMain_create_group();
 }

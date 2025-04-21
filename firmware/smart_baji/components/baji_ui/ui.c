@@ -88,8 +88,6 @@ void ui_init(void)
                                                true, LV_FONT_DEFAULT);
     lv_disp_set_theme(dispp, theme);
     ui_ScreenMain_screen_init();
-    ui_ScreenSettings_screen_init();
-    ui_ScreenTemplate_screen_init();
     ui____initial_actions0 = lv_obj_create(NULL);
     lv_disp_load_scr(ui_ScreenMain);
 }
