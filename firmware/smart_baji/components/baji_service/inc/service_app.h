@@ -1,5 +1,5 @@
-#ifndef __SERVICE_CORE_H__
-#define __SERVICE_CORE_H__
+#ifndef __SERVICE_APP_H__
+#define __SERVICE_APP_H__
 
 
 /*********************************************************************
@@ -54,4 +54,4 @@ extern "C" {
 }
 #endif
 
-#endif /* __SERVICE_CORE_H__ */
+#endif /* __SERVICE_APP_H__ */
