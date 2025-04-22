@@ -53,7 +53,7 @@
 
 #define APP_MSG_QUEUE_LENGTH           (20)
 #define APP_MSG_QUEUE_ITEM_SIZE        sizeof(app_msg_t)
-#define APP_FUNCS_TIMER_TICKS          pdMS_TO_TICKS(100) //100mS
+#define APP_FUNCS_TIMER_TICKS          pdMS_TO_TICKS(100) //100ms
 
 /*********************************************************************
 * TYPEDEFS

@@ -23,8 +23,8 @@
  * SOFTWARE.
  *
  *
- * FileName : /baji_sys/src/sys_init.c
- * Author: Kiritro  Version: v0.1  Date: 2025/4/16
+ * FileName : /baji_app/app/src/app_init.c
+ * Author: Kiritro  Version: v0.1  Date: 2025/4/22
  * Description: Function introduction
  * ChangeLog: Change Notes
  *
@@ -34,17 +34,13 @@
  * INCLUDES
  */
 #include "sys_log.h"
-#include "sys_init.h"
-
-#include "ui.h"
+#include "service_app.h"
 #include "app_init.h"
-#include "hal_init.h"
-#include "service_init.h"
 
 /*********************************************************************
  * MACROS
  */
-
+#define APP_TAG            "APP"
 
 /*********************************************************************
 * TYPEDEFS
@@ -77,14 +73,8 @@
 
 
 
-void sys_init(void)
+void app_init(void)
 {
-    // 抽象层初始化
-    hal_init();
-    // 服务层初始化
-    service_init();
-    // app初始化
-    app_init();
-    // UI初始化
-    ui_init();
+
+    sys_logi(APP_TAG, "app_init");
 }
