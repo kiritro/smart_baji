@@ -14,6 +14,7 @@ extern "C" {
 
 #include "ui_helpers.h"
 #include "ui_events.h"
+#include "ui_api.h"
 
 
 // SCREEN: ui_ScreenMain

@@ -83,6 +83,7 @@ lv_obj_t * ui____initial_actions0;
 
 void ui_init(void)
 {
+    lvgl_port_lock(0);
     lv_disp_t * dispp = lv_display_get_default();
     lv_theme_t * theme = lv_theme_default_init(dispp, lv_palette_main(LV_PALETTE_BLUE), lv_palette_main(LV_PALETTE_RED),
                                                true, LV_FONT_DEFAULT);
@@ -90,4 +91,5 @@ void ui_init(void)
     ui_ScreenMain_screen_init();
     ui____initial_actions0 = lv_obj_create(NULL);
     lv_disp_load_scr(ui_ScreenMain);
+    lvgl_port_unlock();
 }

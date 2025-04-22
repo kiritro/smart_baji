@@ -253,3 +253,13 @@ void ui_ScreenMain_screen_init(void)
 
     ui_ScreenMain_create_group();
 }
+
+void ui_enter_to_screenMain(void)
+{
+    _ui_screen_change(&ui_ScreenMain, LV_SCR_LOAD_ANIM_FADE_ON, 0, 0, &ui_ScreenMain_screen_init);
+}
+
+void ui_exit_to_screenMain(void)
+{
+    _ui_screen_delete(&ui_ScreenMain);
+}

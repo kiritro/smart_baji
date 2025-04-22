@@ -36,6 +36,7 @@
 #include "sys_log.h"
 #include "sys_init.h"
 
+#include "ui.h"
 #include "hal_init.h"
 #include "service_init.h"
 
@@ -81,6 +82,8 @@ void sys_init(void)
     hal_init();
     // 服务层初始化
     service_init();
+    // app初始化
+    
     // UI初始化
-    // 应用层初始化
+    ui_init();
 }

@@ -42,7 +42,6 @@
 #include "lv_demos.h"
 
 #include "sys_log.h"
-#include "ui.h"
 #include "hal_lcd.h"
 #include "hal_encoder.h"
 #include "service_display.h"
@@ -95,10 +94,6 @@ static void lvgl_port_encoder_read(lv_indev_t *indev_drv, lv_indev_data_t *data)
 void service_display_init(void)
 {
     service_lvgl_init();
-
-    lvgl_port_lock(0);
-    ui_init();
-    lvgl_port_unlock();
 }
 
 
