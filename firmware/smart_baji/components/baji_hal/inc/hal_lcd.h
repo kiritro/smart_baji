@@ -9,7 +9,7 @@
 #define LCD_V_RES                     (142)
 
 #define LCD_DRAW_BUFF_DOUBLE          (1)
-#define LCD_DRAW_BUFF_HEIGHT          (10)
+#define LCD_DRAW_BUFF_HEIGHT          (142)
 
 /*********************************************************************
  * CPPMIX

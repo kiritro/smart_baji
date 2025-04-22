@@ -130,7 +130,7 @@ static esp_err_t service_lvgl_init(void)
             .mirror_y = false,
         },
         .flags = {
-            .buff_dma = true,
+            .buff_dma = false,
             .swap_bytes = true,
             .buff_spiram = true,
         }
